@@ -1,33 +1,53 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 
 using namespace std;
 
+// 1. Definición de la Estructura "Personaje"
 struct Personaje {
     string nombre;
+    int vida;
     int ataque;
 };
-int main() {
-    Personaje p1;
-    p1.nombre = "TocPod";
-    p1.ataque = 220;
 
-    Personaje p2;
-    p2.nombre = "Guerrero Shifu";
-    p2.ataque = 200;
+// 2. Función para registrar y guardar el personaje en el archivo
+void guardarPersonaje() {
+    Personaje p;
 
-    cout << "=== BATALLA DE ATRIBUTOS ===" << endl;
-    cout << p1.nombre << " -> Puntos de Ataque: " << p1.ataque << endl;
-    cout << p2.nombre << " -> Puntos de Ataque: " << p2.ataque << endl;
-    cout << "----------------------------" << endl;
+    // Solicitar datos al usuario
+    cout << "--- Registrar Nuevo Personaje ---\n";
+    cout << "Nombre: ";
+    cin >> p.nombre;
+    cout << "Vida: ";
+    cin >> p.vida;
+    cout << "Ataque: ";
+    cin >> p.ataque;
 
-    if (p1.ataque > p2.ataque) {
-        cout << "¡El ganador es " << p1.nombre << " con mayor fuerza de ataque!" << endl;
-    } else if (p2.ataque > p1.ataque) {
-        cout << "¡El ganador es " << p2.nombre << " con mayor fuerza de ataque!" << endl;
+    // Abrir el archivo "personajes.txt" en modo adición (ios::app)
+    ofstream archivo("personajes.txt", ios::app);
+
+    // Verificar si el archivo se abrió correctamente
+    if (archivo.is_open()) {
+        // Escribir los datos en el archivo (separados por espacios o saltos de línea)
+        archivo << p.nombre << " " << p.vida << " " << p.ataque << "\n";
+        
+        // Cerrar el archivo
+        archivo.close();
+        cout << "¡Personaje guardado exitosamente en 'personajes.txt'!\n\n";
     } else {
-        cout << "¡Es un empate! Ambos tienen la misma fuerza de ataque." << endl;
+        cout << "Error: No se pudo abrir o crear el archivo.\n";
     }
+}
+
+int main() {
+    // Ejemplo de uso
+    char opcion;
+    do {
+        guardarPersonaje();
+        cout << "¿Desea registrar otro personaje? (s/n): ";
+        cin >> opcion;
+    } while (opcion == 's' || opcion == 'S');
 
     return 0;
 }
